@@ -7,4 +7,4 @@ An AI-powered payment forecasting and risk management system for JustPaid.io, bu
 - Database: PostgreSQL (configure via .env)
 
 ## Architecture
-![Diagram](./paypredict.svg)
+![Diagram](./paypredict.png)

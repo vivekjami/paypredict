@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-6=8h)(gllyvn0o_9v8*xv(yhmv+0og*+j^hxtk19_mh52rpr8-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 
 # Application definition
@@ -40,9 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'corsheaders',
+    'django_celery_results',
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
+  
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'paypredict',
         'USER': 'postgres',
-        'PASSWORD': 'Vivek1102',
+        'PASSWORD': 'vivek1102',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -154,3 +163,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         },
 #     },
 # }
+
+AUTH0_DOMAIN = 'dev-jvr1dkqncvvrjzjo.us.auth0.com'
+AUTH0_AUDIENCE = 'https://api.paypredict.com'

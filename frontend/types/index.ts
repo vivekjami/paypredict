@@ -5,6 +5,12 @@ export interface Customer {
   credit_score: number;
 }
 
+export interface Prediction {
+  payment_probability: number;
+  expected_date: string;
+  risk_level: string;
+}
+
 export interface Invoice {
   id: string;
   customer: Customer;
@@ -12,4 +18,5 @@ export interface Invoice {
   due_date: string;
   status: 'pending' | 'paid' | 'overdue';
   created_at: string;
+  prediction?: Prediction;
 }

@@ -1,5 +1,5 @@
-"use client";
 
+"use client";
 import { useState } from 'react';
 import {
   Table,
@@ -46,6 +46,9 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
             <TableHead>Amount</TableHead>
             <TableHead>Due Date</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Late Probability</TableHead>
+            <TableHead>Expected Payment</TableHead>
+            <TableHead>Risk</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -53,9 +56,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
             filteredInvoices.map((invoice) => (
               <TableRow key={invoice.id}>
                 <TableCell>{invoice.customer.name}</TableCell>
-                <TableCell>
-                  ${Number(invoice.amount).toFixed(2)}
-                </TableCell>
+                <TableCell>${typeof invoice.amount === 'number' ? invoice.amount.toFixed(2) : invoice.amount}</TableCell>
                 <TableCell>
                   {new Date(invoice.due_date).toLocaleDateString()}
                 </TableCell>
@@ -72,11 +73,36 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
                     {invoice.status}
                   </span>
                 </TableCell>
+                <TableCell>
+                  {invoice.prediction
+                    ? `${(invoice.prediction.payment_probability * 100).toFixed(1)}%`
+                    : 'N/A'}
+                </TableCell>
+                <TableCell>
+                  {invoice.prediction
+                    ? new Date(invoice.prediction.expected_date).toLocaleDateString()
+                    : 'N/A'}
+                </TableCell>
+                <TableCell>
+                  {invoice.prediction ? (
+                    <span
+                      className={`px-2 py-1 rounded ${
+                        invoice.prediction.risk_level === 'low'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {invoice.prediction.risk_level}
+                    </span>
+                  ) : (
+                    'N/A'
+                  )}
+                </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center">
+              <TableCell colSpan={7} className="text-center">
                 No invoices found
               </TableCell>
             </TableRow>

@@ -154,3 +154,5 @@ dist
 # Misc
 *.log
 /dist
+
+*/__pycache__
